@@ -1,9 +1,5 @@
 # pari2021_TP1_Grupo10
 
-// Instruções especiais para o asciidoc usar icons no output
-:icons: html5
-:iconsdir: /etc/asciidoc/images/icons
-
 Nota 1: É necessário ter um repositório git só para este trabalho. Todos os elementos do grupo devem trabalhar sobre o mesmo repo (serem colaboradores).
 
 Nota 2: No dia da apresentação (quarta-feira, durante a aula) cada grupo apresentará por ordem aleatória. As apresentações serão à base de demonstração e não do código em si. No entanto, o prof pode pedir para ver o código e o repositório github
