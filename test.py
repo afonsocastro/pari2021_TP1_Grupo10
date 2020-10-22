@@ -5,8 +5,10 @@ import time
 import argparse
 from colorama import  Fore
 
-parser = argparse.ArgumentParser(description='Inserir numero de letras ou segundos para jogar')
-parser.add_argument('--witharg2', action="store", default=10, dest="witharg2", type=int)
+parser = argparse.ArgumentParser(description=' This program pretend measure your typing accuracy!')
+parser.add_argument('--mv','--max_value', help='As the first argument'+Fore.RED+' maxValue'+Fore.BLACK+', please insert an integer number.\n', action="store", default=10, type=int)
+parser.add_argument('--utm', help='As second argument, please insert:' +Fore.RED+' utm'+Fore.BLACK+' to play (maxValue) seconds, if else you play (maxValue) atemps', action="store", type=bool)
+# description='As the first argument'+Fore.RED+' maxValue'+Fore.BLACK+', please insert an integer number.\n')
 # parser.add_argument('--witharg3', action="store", default=10, dest="witharg3", type = int, descreption=)
 
 
@@ -31,7 +33,7 @@ def printAllCharsUpTo(stop_char):
         final_time = time.time()
         print("Time elapsed is " + str(final_time - start_time) + "seconds")
         print("You have entered  " + char)
-        if char == 'X':
+        if char == ' ':
             break
         else:
             inputs.append(char)

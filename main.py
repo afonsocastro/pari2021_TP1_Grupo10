@@ -7,10 +7,13 @@ from colorama import Fore
 import string
 import random
 
-parser = argparse.ArgumentParser(description='Inserir numero de letras ou segundos para jogar')
-parser.add_argument('--witharg2', action="store", default=10, dest="witharg2", type=int)
-# parser.add_pargument('--witharg3', action="store", default=10, dest="witharg3", type = int, descreption=)
-
+parser = argparse.ArgumentParser(description=' This program pretend measure your typing accuracy!')
+parser.add_argument('--mv', '--max_value',
+                    help='As the first argument' + Fore.RED + ' maxValue' + Fore.BLACK + ', please insert an integer number.\n',
+                    action="store", default=10, type=int)
+parser.add_argument('--utm',
+                    help='As second argument, please insert:' + Fore.RED + ' utm' + Fore.BLACK + ' to play (maxValue) seconds, if else you play (maxValue) atemps',
+                    action="store", type=bool)
 
 tempo_do = parser.parse_args()
 
@@ -81,6 +84,8 @@ def main():
     init_time = time.time()
 
     # ARGUMENTOS
+
+
     max_value = 10
     utm = True
 
