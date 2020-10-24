@@ -114,6 +114,7 @@ def main():
 
     print("The game will start in " + Fore.LIGHTBLUE_EX + "1" + Fore.RESET)
     time.sleep(1)
+    print(Fore.LIGHTBLUE_EX+'          GOOD LUCK'+Fore.RESET)
 
     letters = string.ascii_letters[0:26]
     init_time = time.time()
@@ -167,6 +168,7 @@ def main():
         dictionary["type miss average time"] = '{:0.2f}'.format(Timemiss / misses)
     dictionary["types"] = map(str, TupList)
     pprint.pprint(dictionary)
+    print(Fore.RED +"          GAME OVER             " +Fore.RESET)
     # print('\n'.join(map(str, TupList)))
 
     # not displayed in the screen
