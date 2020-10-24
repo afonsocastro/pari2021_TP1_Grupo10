@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+
+
 import getch
 import time
 import argparse
@@ -10,15 +12,23 @@ from collections import namedtuple
 import pprint
 Input = namedtuple("Input", ['requested', 'received', 'duration'])
 
-parser = argparse.ArgumentParser(description=' This program pretend measure your typing accuracy!')
-parser.add_argument('--mv', '--max_value',
-                    help='As the first argument' + Fore.RED + ' maxValue' + Fore.BLACK + ', please insert an integer number.\n',
+parser = argparse.ArgumentParser(description=' This program aims to measure your typing accuracy!', epilog="And now you can pass to action!")
+parser.add_argument('max_value', metavar='MaxValue',nargs='?',
+                    help='As the first argument' + Fore.RED + ' MaxValue' + Fore.BLACK + ', please insert an integer number. By default is 10!\n',
                     action="store", default=10, type=int)
-parser.add_argument('--utm',
-                    help='As second argument, please insert:' + Fore.RED + ' utm' + Fore.BLACK + ' to play (maxValue) seconds, if else you play (maxValue) atemps',
-                    action="store", type=bool)
+parser.add_argument('utm',metavar='UserTimeMode',nargs='?',
+                    help='As second argument, please insert:' + Fore.RED + ' utm' + Fore.BLACK + ' to play (MaxValue) seconds, if else, you play (MaxValue) atemps',
+                    action="store", type=str,default=False)
+
 
 tempo_do = parser.parse_args()
+#print (tempo_do.utm)
+
+if tempo_do.utm=='utm':
+    game_mode=True #play number by time
+else:
+    game_mode = False #play by number of attemps
+#print (game_mode)
 
 # print(tempo_do.__dict__["one"])
 TupList = []
@@ -74,6 +84,10 @@ def main():
     hitkeys = 0
     misses = 0
     print("Welcome to the " + Fore.RED + "PARI " + Fore.LIGHTBLUE_EX + "Ultimate Speed Typing Test." + Fore.RESET)
+    if not game_mode:
+        print("You will play for "+Fore.RED + "{}".format(tempo_do.max_value) + Fore.RESET+" atemps".format(tempo_do.max_value))
+    else:
+        print("You will play for "+Fore.RED + "{}".format(tempo_do.max_value) + Fore.RESET+" seconds")
     print("Please, when you're ready, press any key.")
     char = getch.getch()
 
