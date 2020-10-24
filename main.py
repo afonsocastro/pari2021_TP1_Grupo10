@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+
+
 import getch
 import time
 import argparse
@@ -10,15 +12,28 @@ from collections import namedtuple
 import pprint
 Input = namedtuple("Input", ['requested', 'received', 'duration'])
 
-parser = argparse.ArgumentParser(description=' This program pretend measure your typing accuracy!')
-parser.add_argument('--mv', '--max_value',
-                    help='As the first argument' + Fore.RED + ' maxValue' + Fore.BLACK + ', please insert an integer number.\n',
+
+#global vars
+number_typed_letters = 0
+
+#help context and input args
+parser = argparse.ArgumentParser(description=' This program aims to measure your typing accuracy!', epilog="And now you can pass to action!")
+parser.add_argument('max_value', metavar='MaxValue',nargs='?',
+                    help='As the first argument' + Fore.RED + ' MaxValue' + Fore.BLACK + ', please insert an integer number. By default is 10!\n',
                     action="store", default=10, type=int)
-parser.add_argument('--utm',
-                    help='As second argument, please insert:' + Fore.RED + ' utm' + Fore.BLACK + ' to play (maxValue) seconds, if else you play (maxValue) atemps',
-                    action="store", type=bool)
+parser.add_argument('utm',metavar='UserTimeMode',nargs='?',
+                    help='As second argument, please insert:' + Fore.RED + ' utm' + Fore.BLACK + ' to play (MaxValue) seconds, if else, you play (MaxValue) atemps',
+                    action="store", type=str,default=False)
+
 
 tempo_do = parser.parse_args()
+#print (tempo_do.utm)
+
+if tempo_do.utm=='utm':
+    game_mode=True #play number by time
+else:
+    game_mode = False #play by number of attemps
+#print (game_mode)
 
 # print(tempo_do.__dict__["one"])
 TupList = []
@@ -27,21 +42,22 @@ dictionary = {"accuracy": "", "number of hits": "", "number of types": "", "test
               "type miss average time": "", "Every type data": ""}
 
 
-def gameOn(letters, number_typed_letters):
-    hits = 0
-    misses = 0
+def gameOn(letters):
     letter = random.choice(letters)
     print("Type letter " + Fore.LIGHTBLUE_EX + str(letter) + Fore.RESET)
     init_time = time.time()
     char = getch.getch()
+    global  number_typed_letters
+    number_typed_letters += 1
+    print(number_typed_letters)
     type_time = time.time()
     elapsed_time = type_time - init_time
+
     if char == letter:
         print("You typed letter " + Fore.GREEN + str(char) + Fore.RESET)
-        hits += 1
     else:
         print("You typed letter " + Fore.RED + str(char) + Fore.RESET)
-        misses += 1
+
     triple = Input(letter, str(char), str(elapsed_time))
     TupList.append(triple)
     return char
@@ -53,7 +69,7 @@ def printAllCharsUpTo(stop_char):
     :param stop_char:
     :return:
     """
-    # to installgetch
+    # para instalar o getch
     # pip install https://pypi.python.org/packages/source/g/getch/getch-1.0-python2.tar.gz#md5=586ea0f1f16aa094ff6a30736ba03c50
     inputs = []
 
@@ -71,9 +87,16 @@ def printAllCharsUpTo(stop_char):
     print('Here is the list of all your inputs: ' + str(inputs))
 
 
+
 def main():
-    number_typed_letters = 0
+
+    hitkeys = 0
+    misses = 0
     print("Welcome to the " + Fore.RED + "PARI " + Fore.LIGHTBLUE_EX + "Ultimate Speed Typing Test." + Fore.RESET)
+    if not game_mode:
+        print("You will play for "+Fore.RED + "{}".format(tempo_do.max_value) + Fore.RESET+" atemps".format(tempo_do.max_value))
+    else:
+        print("You will play for "+Fore.RED + "{}".format(tempo_do.max_value) + Fore.RESET+" seconds")
     print("Please, when you're ready, press any key.")
     char = getch.getch()
 
@@ -92,17 +115,17 @@ def main():
     # ARGUMENTOS
 
 
-    max_value = 5
-    utm = False
+    max_value = tempo_do.max_value
+    utm = game_mode
 
     if not utm:
-        while number_typed_letters in range(0, max_value, 1):
-            number_typed_letters += 1
-            char = gameOn(letters, number_typed_letters)
-        print("You have typed " + str(number_typed_letters) + " letters")
+        while number_typed_letters < max_value:
+            char = gameOn(letters)
+            print (number_typed_letters)
+
     else:
         while time.time()-init_time < max_value:
-            char = gameOn(letters, number_typed_letters)
+            char = gameOn(letters)
 
         if time.time() - init_time <= max_value:
             print("Current test duration is " + str(time.time() - init_time))
