@@ -38,6 +38,8 @@ else:
 
 # print(tempo_do.__dict__["one"])
 TupList = []
+Timehitlist = []
+Timemisslist = []
 dictionary = {"accuracy": "", "number of hits": "", "number of types": "", "test duration": "",
               "test start": "", "test end": "", "type average time": "", "type hit average time": "",
               "type miss average time": "", "types": ""}
@@ -50,7 +52,7 @@ def gameOn(letters):
     char = getch.getch()
     global number_typed_letters
     number_typed_letters += 1
-    print(number_typed_letters)
+    # print(number_typed_letters)
     type_time = time.time()
     elapsed_time = type_time - init_time
 
@@ -58,10 +60,12 @@ def gameOn(letters):
         print("You typed letter " + Fore.GREEN + str(char) + Fore.RESET)
         global hits
         hits += 1
+        Timehitlist.append(elapsed_time)
     else:
         print("You typed letter " + Fore.RED + str(char) + Fore.RESET)
         global misses
         misses += 1
+        Timemisslist.append(elapsed_time)
     triple = Input(letter, str(char), str(elapsed_time))
     TupList.append(triple)
     return char
@@ -115,9 +119,7 @@ def main():
     init_time = time.time()
     init_date = datetime.datetime.now()
 
-
     # ARGUMENTS
-
 
     max_value = tempo_do.max_value
     utm = game_mode
@@ -125,9 +127,11 @@ def main():
     if not utm:
         while number_typed_letters < max_value:
             char = gameOn(letters)
-            print (number_typed_letters)
             global total_time
             total_time = time.time() - init_time
+            if char == " ":
+                print("Uh oh, You've cancelled the Ultimate Type Test.")
+                quit()
 
     else:
         while time.time()-init_time < max_value:
@@ -143,18 +147,28 @@ def main():
             print("The last typed letter (" + str(char) + ") will not count")
     final_date = datetime.datetime.now()
     print(Fore.LIGHTBLUE_EX + "Test finished!" + Fore.RESET)
-    dictionary["accuracy"] = str(float(hits)/(float(hits) + float(misses)))
-    dictionary["number of hits"] = str(hits)
-    dictionary["number of types"] = str(hits + misses)
-    dictionary["test duration"] = str(total_time)
+    TimeHit = sum(Timehitlist)
+    Timemiss = sum(Timemisslist)
+    dictionary["accuracy"] = str((float(hits)/(float(hits) + float(misses)) * 100)) + " %"
+    dictionary["number of hits"] = hits
+    dictionary["number of types"] = hits + misses
+    dictionary["test duration"] = total_time
     dictionary["test start"] = str(init_date)
-
     dictionary["test end"] = str(final_date)
+    dictionary["type average time"] = (TimeHit + Timemiss)/(hits + misses)
+    if hits == 0:
+        dictionary["type hit average time"] = 0.0
+    else:
+        dictionary["type hit average time"] = TimeHit / hits
+    if misses == 0:
+        dictionary["type miss average time"] = 0.0
+    else:
+        dictionary["type miss average time"] = Timemiss / misses
+    dictionary["types"] = map(str, TupList)
     pprint.pprint(dictionary)
-    print('\n'.join(map(str, TupList)))
+    # print('\n'.join(map(str, TupList)))
 
-
-    # # not displayed in the screen
+    # not displayed in the screen
     # print('You have entered  ' + char)
     # printAllCharsUpTo(char)
 
