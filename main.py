@@ -15,6 +15,7 @@ Input = namedtuple("Input", ['requested', 'received', 'duration'])
 
 #global vars
 number_typed_letters = 0
+game_mode=True
 
 #help context and input args
 parser = argparse.ArgumentParser(description=' This program aims to measure your typing accuracy!', epilog="And now you can pass to action!")
@@ -37,9 +38,9 @@ else:
 
 # print(tempo_do.__dict__["one"])
 TupList = []
-dictionary = {"accuracy": "", "number of hits": "", "number of types": "", "test duration": "",
-              "test start": "", "test end": "", "type average time": "", "type hit average time": "",
-              "type miss average time": "", "Every type data": ""}
+dictionary = {"accuracy": "0", "number of hits": "0", "number of types": "0", "test duration": "0",
+              "test start": "0", "test end": "0", "type average time": "0", "type hit average time": "0",
+              "type miss average time": "0", "Every type data": "0"}
 
 
 def gameOn(letters):
@@ -49,14 +50,17 @@ def gameOn(letters):
     char = getch.getch()
     global number_typed_letters
     number_typed_letters += 1
-    print(number_typed_letters)
+    dictionary["number of types"] = int(dictionary.get("number of types")) + 1
     type_time = time.time()
     elapsed_time = type_time - init_time
 
     if char == letter:
         print("You typed letter " + Fore.GREEN + str(char) + Fore.RESET)
+        dictionary["number of hits"]=int(dictionary.get("number of hits"))+1
+        #print(dictionary.get("number of hits"))
     else:
         print("You typed letter " + Fore.RED + str(char) + Fore.RESET)
+
 
     triple = Input(letter, str(char), str(elapsed_time))
     TupList.append(triple)
@@ -119,7 +123,7 @@ def main():
     if not utm:
         while number_typed_letters < max_value:
             char = gameOn(letters)
-            print (number_typed_letters)
+
 
     else:
         while time.time()-init_time < max_value:
@@ -132,6 +136,13 @@ def main():
                   str(time.time() - init_time) + ") exceeded the maximum of " + str(max_value) + ":")
             print("The last typed letter (" + str(char) + ") will not count")
     print(Fore.LIGHTBLUE_EX + "Test finished!" + Fore.RESET)
+
+    #Statistics
+    dictionary["accuracy"]=float(dictionary.get('number of hits'))/float(dictionary.get('number of types'))
+
+
+
+
     pprint.pprint(dictionary)
     print('\n'.join(map(str, TupList)))
 
