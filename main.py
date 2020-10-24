@@ -12,6 +12,11 @@ from collections import namedtuple
 import pprint
 Input = namedtuple("Input", ['requested', 'received', 'duration'])
 
+
+#global vars
+number_typed_letters = 0
+
+#help context and input args
 parser = argparse.ArgumentParser(description=' This program aims to measure your typing accuracy!', epilog="And now you can pass to action!")
 parser.add_argument('max_value', metavar='MaxValue',nargs='?',
                     help='As the first argument' + Fore.RED + ' MaxValue' + Fore.BLACK + ', please insert an integer number. By default is 10!\n',
@@ -37,14 +42,17 @@ dictionary = {"accuracy": "", "number of hits": "", "number of types": "", "test
               "type miss average time": "", "Every type data": ""}
 
 
-def gameOn(letters, number_typed_letters):
+def gameOn(letters):
     letter = random.choice(letters)
     print("Type letter " + Fore.LIGHTBLUE_EX + str(letter) + Fore.RESET)
     init_time = time.time()
     char = getch.getch()
+    global  number_typed_letters
+    number_typed_letters += 1
+    print(number_typed_letters)
     type_time = time.time()
     elapsed_time = type_time - init_time
-    number_typed_letters += 1
+
     if char == letter:
         print("You typed letter " + Fore.GREEN + str(char) + Fore.RESET)
     else:
@@ -79,8 +87,9 @@ def printAllCharsUpTo(stop_char):
     print('Here is the list of all your inputs: ' + str(inputs))
 
 
+
 def main():
-    number_typed_letters = 0
+
     hitkeys = 0
     misses = 0
     print("Welcome to the " + Fore.RED + "PARI " + Fore.LIGHTBLUE_EX + "Ultimate Speed Typing Test." + Fore.RESET)
@@ -106,12 +115,13 @@ def main():
     # ARGUMENTOS
 
 
-    max_value = 5
-    utm = True
+    max_value = tempo_do.max_value
+    utm = game_mode
 
     if not utm:
         while number_typed_letters < max_value:
-            char = gameOn(letters, number_typed_letters)
+            char = gameOn(letters)
+            print (number_typed_letters)
 
     else:
         while time.time()-init_time < max_value:
