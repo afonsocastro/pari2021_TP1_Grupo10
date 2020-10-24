@@ -47,7 +47,7 @@ def gameOn(letters):
     print("Type letter " + Fore.LIGHTBLUE_EX + str(letter) + Fore.RESET)
     init_time = time.time()
     char = getch.getch()
-    global  number_typed_letters
+    global number_typed_letters
     number_typed_letters += 1
     print(number_typed_letters)
     type_time = time.time()
@@ -90,8 +90,6 @@ def printAllCharsUpTo(stop_char):
 
 def main():
 
-    hitkeys = 0
-    misses = 0
     print("Welcome to the " + Fore.RED + "PARI " + Fore.LIGHTBLUE_EX + "Ultimate Speed Typing Test." + Fore.RESET)
     if not game_mode:
         print("You will play for "+Fore.RED + "{}".format(tempo_do.max_value) + Fore.RESET+" atemps".format(tempo_do.max_value))
