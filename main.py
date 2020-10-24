@@ -130,7 +130,7 @@ def main():
             global total_time
             total_time = time.time() - init_time
             if char == " ":
-                print("Uh oh, You've cancelled the Ultimate Type Test.")
+                print("Uh oh,\nYou've cancelled the Ultimate Type Test.")
                 quit()
 
     else:
@@ -143,27 +143,28 @@ def main():
         else:
             total_time = time.time() - init_time
             print("\n" + Fore.RED + "WARNING: " + Fore.RESET + "Current test duration (" +
-                  str(total_time) + ") exceeded the maximum of " + str(max_value) + ":")
+                  str('{:0.2f}'.format(total_time)) + " sec) exceeded the maximum of " + str(max_value) + "sec:")
             print("The last typed letter (" + str(char) + ") will not count")
+
     final_date = datetime.datetime.now()
     print(Fore.LIGHTBLUE_EX + "Test finished!" + Fore.RESET)
     TimeHit = sum(Timehitlist)
     Timemiss = sum(Timemisslist)
-    dictionary["accuracy"] = str((float(hits)/(float(hits) + float(misses)) * 100)) + " %"
+    dictionary["accuracy"] = str('{:0.2f}'.format(float(hits)/(float(hits) + float(misses)) * 100)) + " %"
     dictionary["number of hits"] = hits
     dictionary["number of types"] = hits + misses
-    dictionary["test duration"] = total_time
-    dictionary["test start"] = str(init_date)
-    dictionary["test end"] = str(final_date)
-    dictionary["type average time"] = (TimeHit + Timemiss)/(hits + misses)
+    dictionary["test duration"] = '{:0.2f}'.format(total_time)
+    dictionary["test start"] ='{:%Y-%m-%d %H:%M.%S}'.format((init_date))
+    dictionary["test end"] = '{:%Y-%m-%d %H:%M.%S}'.format((final_date))
+    dictionary["type average time"] = '{:0.2f}'.format((TimeHit + Timemiss)/(hits + misses))
     if hits == 0:
         dictionary["type hit average time"] = 0.0
     else:
-        dictionary["type hit average time"] = TimeHit / hits
+        dictionary["type hit average time"] = '{:0.2f}'.format(TimeHit / hits)
     if misses == 0:
         dictionary["type miss average time"] = 0.0
     else:
-        dictionary["type miss average time"] = Timemiss / misses
+        dictionary["type miss average time"] = '{:0.2f}'.format(Timemiss / misses)
     dictionary["types"] = map(str, TupList)
     pprint.pprint(dictionary)
     # print('\n'.join(map(str, TupList)))
