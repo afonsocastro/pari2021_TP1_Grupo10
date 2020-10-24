@@ -125,7 +125,7 @@ def main():
 
     else:
         while time.time()-init_time < max_value:
-            char = gameOn(letters, number_typed_letters)
+            char = gameOn(letters)
 
         if time.time() - init_time <= max_value:
             print("Current test duration is " + str(time.time() - init_time))
