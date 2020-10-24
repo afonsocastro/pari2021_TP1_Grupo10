@@ -28,18 +28,20 @@ dictionary = {"accuracy": "", "number of hits": "", "number of types": "", "test
 
 
 def gameOn(letters, number_typed_letters):
+    hits = 0
+    misses = 0
     letter = random.choice(letters)
     print("Type letter " + Fore.LIGHTBLUE_EX + str(letter) + Fore.RESET)
     init_time = time.time()
     char = getch.getch()
     type_time = time.time()
     elapsed_time = type_time - init_time
-    number_typed_letters += 1
     if char == letter:
         print("You typed letter " + Fore.GREEN + str(char) + Fore.RESET)
+        hits += 1
     else:
         print("You typed letter " + Fore.RED + str(char) + Fore.RESET)
-
+        misses += 1
     triple = Input(letter, str(char), str(elapsed_time))
     TupList.append(triple)
     return char
@@ -51,7 +53,7 @@ def printAllCharsUpTo(stop_char):
     :param stop_char:
     :return:
     """
-    # para instalar o getch
+    # to installgetch
     # pip install https://pypi.python.org/packages/source/g/getch/getch-1.0-python2.tar.gz#md5=586ea0f1f16aa094ff6a30736ba03c50
     inputs = []
 
@@ -71,8 +73,6 @@ def printAllCharsUpTo(stop_char):
 
 def main():
     number_typed_letters = 0
-    hitkeys = 0
-    misses = 0
     print("Welcome to the " + Fore.RED + "PARI " + Fore.LIGHTBLUE_EX + "Ultimate Speed Typing Test." + Fore.RESET)
     print("Please, when you're ready, press any key.")
     char = getch.getch()
@@ -93,12 +93,13 @@ def main():
 
 
     max_value = 5
-    utm = True
+    utm = False
 
     if not utm:
-        while number_typed_letters < max_value:
+        while number_typed_letters in range(0, max_value, 1):
+            number_typed_letters += 1
             char = gameOn(letters, number_typed_letters)
-
+        print("You have typed " + str(number_typed_letters) + " letters")
     else:
         while time.time()-init_time < max_value:
             char = gameOn(letters, number_typed_letters)
