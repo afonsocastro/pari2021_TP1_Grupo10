@@ -43,6 +43,7 @@ utm = tempo_do.utm
 TupList = []
 Timehitlist = []
 Timemisslist = []
+TimetotalList = []
 dictionary = {"accuracy": "", "number of hits": "", "number of types": "", "test duration": "",
               "test start": "", "test end": "", "type average time": "", "type hit average time": "",
               "type miss average time": "", "types": ""}
@@ -98,17 +99,26 @@ def game_on(letters):
     # print(number_typed_letters)
     type_time = time.time()
     elapsed_time = type_time - init_time
-
+    TimetotalList.append(elapsed_time)
+    SummedTimes = sum(TimetotalList)
     if char == letter:
-        print("You typed letter " + Fore.GREEN + str(char) + Fore.RESET)
-        global hits
-        hits += 1
-        Timehitlist.append(elapsed_time)
+        if SummedTimes <= max_value:
+            print("You typed letter " + Fore.GREEN + str(char) + Fore.RESET)
+            global hits
+            hits += 1
+            Timehitlist.append(elapsed_time)
+        else:
+            print("You typed letter " + Fore.LIGHTYELLOW_EX + str(char) + Fore.RESET + " (Time exceeded!)")
+
     elif char != " ":
-        print("You typed letter " + Fore.RED + str(char) + Fore.RESET)
-        global misses
-        misses += 1
-        Timemisslist.append(elapsed_time)
+        if SummedTimes <= max_value:
+            print("You typed letter " + Fore.RED + str(char) + Fore.RESET)
+            global misses
+            misses += 1
+            Timemisslist.append(elapsed_time)
+        else:
+            print("You typed letter " + Fore.LIGHTYELLOW_EX + str(char) + Fore.RESET + " (Time exceeded!)")
+
     triple = Input(letter, str(char), str(elapsed_time))
     TupList.append(triple)
     return char
@@ -130,7 +140,7 @@ def main():
     game_count_down(3)
     game_count_down(2)
     game_count_down(1)
-    # print(Fore.LIGHTBLUE_EX+'          GOOD LUCK'+Fore.RESET)
+    # print(Fore.LIGHTBLUE_EX+'GOOD LUCK'+Fore.RESET)
 
     letters = string.ascii_letters[0:26]
     init_time = time.time()
