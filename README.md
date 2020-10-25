@@ -41,7 +41,7 @@ For example, if the user run the command
     
 The game will end after 50 seconds of the moment that began.
 
-After the program is lunched, user will be informed about the game configurations, and will be asked to press a key.
+After the program is launched, user will be informed about the game configurations, and will be asked to press a key.
 After that action, a 3-second countdown will take place and the letters to type start to be requested.
 
 When the time limit or attempts are reached, the statistics of the game are presented.
