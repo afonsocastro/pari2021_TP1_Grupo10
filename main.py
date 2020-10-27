@@ -63,7 +63,7 @@ def delete_last_line():
 
 def game_count_down(n):
     """
-    Show the seconds (in a pretty way) to start the game
+entao s    Show the seconds (in a pretty way) to start the game
     :param n: number of seconds that remains to start the test
     """
 
@@ -107,17 +107,26 @@ def game_on(letters):
             global hits
             hits += 1
             Timehitlist.append(elapsed_time)
-        else:
+        elif SummedTimes>max_value and utm:
             print("You typed letter " + Fore.LIGHTYELLOW_EX + str(char) + Fore.RESET + " (Time exceeded!)")
-
+        else:
+            print("You typed letter " + Fore.GREEN + str(char) + Fore.RESET)
+            global hits
+            hits += 1
+            Timehitlist.append(elapsed_time)
     elif char != " ":
         if SummedTimes <= max_value:
             print("You typed letter " + Fore.RED + str(char) + Fore.RESET)
             global misses
             misses += 1
             Timemisslist.append(elapsed_time)
-        else:
+        elif SummedTimes > max_value and utm:
             print("You typed letter " + Fore.LIGHTYELLOW_EX + str(char) + Fore.RESET + " (Time exceeded!)")
+        else:
+            print("You typed letter " + Fore.RED + str(char) + Fore.RESET)
+            global misses
+            misses += 1
+            Timemisslist.append(elapsed_time)
 
     triple = Input(letter, str(char), str(elapsed_time))
     TupList.append(triple)
