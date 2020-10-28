@@ -24,10 +24,15 @@ misses = 0
 total_time = 0
 
 # help context and input args
-parser = argparse.ArgumentParser(description=' This program aims to measure your typing accuracy.', epilog="And now you are ready to play!")
+parser = argparse.ArgumentParser(description=' This program aims to measure your typing accuracy.',
+                                 epilog="And now you are ready to play!")
 
 
-parser.add_argument('-mv', '--max_value', help="Please insert an integer number. " + Fore.LIGHTBLUE_EX + ' MaxValue' + Fore.RESET + ' is the max of seconds (if' + Fore.LIGHTBLUE_EX + ' utm' + Fore.RESET + ' is set true) or the max of attempts (if' + Fore.LIGHTBLUE_EX + ' utm' + Fore.RESET + ' is set false). By default, ' + Fore.LIGHTBLUE_EX + ' MaxValue' + Fore.RESET + ' is 10.\n', action="store", default=10, type=int)
+parser.add_argument('-mv', '--max_value', help="Please insert an integer number. " + Fore.LIGHTBLUE_EX + ' MaxValue' + Fore.RESET +
+                                               ' is the max of seconds (if' + Fore.LIGHTBLUE_EX + ' utm' + Fore.RESET +
+                                               ' is set true) or the max of attempts (if' + Fore.LIGHTBLUE_EX + ' utm' + Fore.RESET +
+                                               ' is set false). By default, ' + Fore.LIGHTBLUE_EX + ' MaxValue' + Fore.RESET +
+                                               ' is 10.\n', action="store", default=10, type=int)
 
 parser.add_argument('-utm', '--utm', help='Please select:' + Fore.LIGHTBLUE_EX + ' utm' + Fore.RESET
                                           + ' to play (' + Fore.LIGHTBLUE_EX + 'MaxValue' + Fore.RESET + ') seconds. Otherwise, you will play (' + Fore.LIGHTBLUE_EX + 'MaxValue' + Fore.RESET + ') attempts', action="store_true", default=False)
@@ -54,10 +59,10 @@ def delete_last_line():
     Deletes the last line in the terminal
     """
 
-    #cursor up one line
+    # cursor up one line
     sys.stdout.write('\x1b[1A')
 
-    #delete last line
+    # delete last line
     sys.stdout.write('\x1b[2K')
 
 
@@ -89,7 +94,8 @@ def game_on(letters):
     :param letters: string with all the possible letter for the program to ask
     :return char: character that the user has pressed
     """
-
+    global hits
+    global misses
     letter = random.choice(letters)
     print("Type letter " + Fore.LIGHTBLUE_EX + str(letter) + Fore.RESET)
     init_time = time.time()
@@ -104,27 +110,27 @@ def game_on(letters):
     if char == letter:
         if SummedTimes <= max_value:
             print("You typed letter " + Fore.GREEN + str(char) + Fore.RESET)
-            global hits
+
             hits += 1
             Timehitlist.append(elapsed_time)
         elif SummedTimes>max_value and utm:
             print("You typed letter " + Fore.LIGHTYELLOW_EX + str(char) + Fore.RESET + " (Time exceeded!)")
         else:
             print("You typed letter " + Fore.GREEN + str(char) + Fore.RESET)
-            global hits
+            #global hits
             hits += 1
             Timehitlist.append(elapsed_time)
     elif char != " ":
         if SummedTimes <= max_value:
             print("You typed letter " + Fore.RED + str(char) + Fore.RESET)
-            global misses
+
             misses += 1
             Timemisslist.append(elapsed_time)
         elif SummedTimes > max_value and utm:
             print("You typed letter " + Fore.LIGHTYELLOW_EX + str(char) + Fore.RESET + " (Time exceeded!)")
         else:
             print("You typed letter " + Fore.RED + str(char) + Fore.RESET)
-            global misses
+#            global misses
             misses += 1
             Timemisslist.append(elapsed_time)
 
